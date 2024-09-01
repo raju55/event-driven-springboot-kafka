@@ -134,70 +134,336 @@ Install Docker by following the instructions for your operating system:
 - **Using Docker Compose:**
   ```bash
     docker-compose up
+# Docker Compose Setup for Kafka and AKHQ
+
+This Docker Compose file sets up a Kafka broker using KRaft mode and an AKHQ instance for managing the Kafka cluster. The Kafka service runs in the host network mode to allow seamless communication with `localhost:9092`, while AKHQ connects to this broker and exposes a web UI on port `8080`.
+
+## Docker Compose Configuration
+
+      ```
+      version: '3.8'
+      
+      services:
+        kafka:
+          image: vinsdocker/kafka
+          container_name: kafka
+          environment:
+            KAFKA_PROCESS_ROLES: broker,controller
+            KAFKA_NODE_ID: 1
+            KAFKA_LISTENERS: PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+            KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+            KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+            KAFKA_LOG_DIRS: /var/lib/kafka/data
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+            KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+            KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+            KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+            KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+            KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+          volumes:
+            - ./data:/var/lib/kafka/data
+          network_mode: host
+      
+        akhq:
+          image: tchiotludo/akhq
+          container_name: akhq
+          ports:
+            - "8080:8080"
+          environment:
+            AKHQ_CONFIGURATION: |
+              akhq:
+                connections:
+                  kafka-cluster:
+                    properties:
+                      bootstrap.servers: "localhost:9092"
+          depends_on:
+            - kafka
+## Steps to Set Up and Run
+
+Follow the steps below to set up and run the Kafka and AKHQ services using Docker Compose:
+
+1. **Copy the `docker-compose.yml` File**
+   - Copy the above Docker Compose configuration and save it as `docker-compose.yml` in your project directory.
+
+2. **Open Your Terminal**
+   - Navigate to the directory where you saved the `docker-compose.yml` file:
+     ```bash
+     cd /path/to/your/project
+     ```
+
+3. **Create a Directory for Kafka Data**
+   - Run the following command to create a directory for Kafka data persistence:
+     ```bash
+     mkdir -p ./data  - Optional
+     ```
+
+4. **Run Docker Compose**
+   - Use the following command to start the Kafka and AKHQ services:
+     ```bash
+     docker-compose up -d
+     ```
+   - The `-d` flag runs the containers in detached mode (in the background).
+
+5. **Verify the Services are Running**
+   - Check the status of the running containers to ensure both Kafka and AKHQ are up:
+     ```bash
+     docker-compose ps
+     ```
+
+6. **Access the AKHQ UI**
+   - Open your web browser and navigate to `http://localhost:8080`. You should see the AKHQ UI where you can manage your Kafka cluster.
+
+# Apache Kafka Overview
+
+Apache Kafka is a distributed event streaming platform that is widely used to build real-time data pipelines and streaming applications. Originally developed by LinkedIn, Kafka was later open-sourced through the Apache Software Foundation. Kafka is designed to handle high-throughput, low-latency data streams in a scalable and fault-tolerant manner.
+
+## Key Features of Apache Kafka
+
+- **Distributed System**: 
+  - Kafka operates as a distributed system across multiple servers (brokers), allowing it to scale horizontally and provide high availability.
+
+- **Publish-Subscribe Messaging**: 
+  - Kafka uses a publish-subscribe model where producers send messages to topics, and consumers subscribe to these topics to receive messages.
+
+- **Scalability**:
+  - Topics are partitioned, allowing Kafka to distribute data across multiple brokers, enabling the system to scale and handle high volumes of data.
+
+- **Durability**:
+  - Kafka ensures data durability by replicating partitions across multiple brokers, safeguarding against data loss in case of failures.
+
+- **Fault Tolerance**:
+  - Kafka’s distributed architecture and replication mechanisms make it resilient to broker failures, ensuring continued operation without data loss.
+
+- **High Throughput and Low Latency**:
+  - Kafka is optimized for high throughput and low latency, making it ideal for processing large streams of data in real-time.
+
+- **Stream Processing**:
+  - Kafka Streams API allows for real-time processing of data, supporting complex event processing and transformation directly within Kafka.
+
+- **Decoupling of Producers and Consumers**:
+  - Kafka decouples producers from consumers, allowing them to operate independently, which simplifies scaling and system maintenance.
+
+- **Real-Time Data Integration**:
+  - Kafka can integrate real-time data from various sources and deliver it to multiple destinations, making it a key component in real-time data pipelines.
+
+- **Exactly-Once Semantics**:
+  - Kafka provides exactly-once semantics (EOS), ensuring that each message is processed exactly once, even in distributed and fault-tolerant environments.
+
+- **Flexible and Simple APIs**:
+  - Kafka offers flexible APIs for producers, consumers, connectors, and stream processing, making it easy to integrate with various applications and systems.
+
+## Use Cases for Apache Kafka
+
+- **Real-Time Data Pipelines**: 
+  - Kafka is used to build pipelines that transport data in real-time from one system to another.
+  
+- **Stream Processing**:
+  - Kafka can be integrated with stream processing frameworks like Apache Flink, Apache Storm, or Kafka Streams for real-time data processing.
+
+- **Log Aggregation**:
+  - Kafka aggregates logs from multiple services and stores them in a centralized location for analysis.
+
+- **Event Sourcing**:
+  - Kafka is used in event-driven architectures to store and distribute events in a scalable and reliable manner.
+
+- **Messaging**:
+  - Kafka acts as a message broker, enabling asynchronous communication between distributed systems.
+
+## Conclusion
+
+Apache Kafka is a powerful platform for building real-time, event-driven applications that require reliable, scalable, and high-performance data streaming capabilities. Its core features, including scalability, fault tolerance, and stream processing, make it an ideal choice for a wide range of use cases in modern data architectures.
+
+# Apache Kafka Architecture
+
+Apache Kafka is a distributed event streaming platform that provides a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka's architecture is designed for scalability, fault tolerance, and durability, making it an ideal choice for building real-time data pipelines and streaming applications.
+
+## Key Components of Kafka Architecture
+ ![image](https://github.com/user-attachments/assets/34d57d90-2ce0-447b-938b-1edca58202d4)
+
+1. **Topics**
+   - Topics are where data is published.
+   - Topics are the logical channels in Kafka where records (messages) are published.
+   - Topics are partitioned, meaning they are divided into multiple segments or partitions for scalability and parallel processing.
+   - Each message in a topic is assigned a unique offset, which identifies the position of the message within a partition
 
 
-## Features
-
-- **Event Producers:** Components that generate events in response to actions or changes.
-- **Event Consumers:** Components that listen for and respond to events.
-- **Event Streams:** Channels where events are transmitted and processed asynchronously.
-- **Scalability:** The system is designed to handle high loads by processing events in parallel.
-- **Real-Time Processing:** Events are processed immediately as they occur, ensuring timely responses.
-
-## Getting Started
-
-### Prerequisites
-
-- [List any software, tools, or dependencies required to run the project, e.g., Java 17, Docker, Kafka, etc.]
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/your-repository.git
+2. **Partitions**
+   - Partitions are the segments that divide a Kafka topic into smaller, manageable pieces.
+   - Each partition contains an ordered, immutable sequence of records, where every record is identified by a unique sequential ID called an offset.
+   - Partitions allow Kafka to scale horizontally by distributing data across multiple servers (brokers) in a Kafka cluster.
+   - Consumers can read from different partitions simultaneously, enabling parallel processing and improving data throughput.
+   - Kafka guarantees the order of messages within a single partition, ensuring that messages are processed in the order they were received.
+   - Kafka does not guarantee message ordering across multiple partitions within the same topic.
 
 
-# Dvantages of Event-Driven Architecture (EDA):
-# 1. Loose Coupling:
+3. **Producers**
+     - Producers are the clients that publish records to one or more Kafka topics. Producers write data to Kafka topics by choosing the appropriate partition for each record.
+  
+    - Producers can send messages to a specific partition or let Kafka decide the partition based on a key or round-robin strategy.
+  
+    - Producers handle batching, compression, and retries to optimize throughput and reliability.
 
-  #.Components communicate through events without needing direct knowledge of each other.
-Simplifies changes and upgrades, reducing dependencies between components.
-Scalability:
 
-Supports horizontal scaling by allowing multiple consumers to process events independently.
-Efficiently handles high loads and large volumes of data.
-Flexibility and Extensibility:
+4. **Consumers**
+     - Consumers are the clients that read records from Kafka topics. They subscribe to one or more topics and process the messages they receive.
 
-New functionalities can be added without disrupting existing systems.
-Allows for incremental improvements and easy integration of new features.
-Real-Time Processing:
+    - Consumers are grouped into consumer groups. Each consumer in a group reads from a unique set of partitions, ensuring that each message is processed only once by the group.
 
-Events are processed as they occur, enabling immediate reactions to changes.
-Ideal for applications requiring timely data processing and decision-making.
-Resilience and Fault Tolerance:
+    - Kafka tracks the offset of messages read by each consumer, allowing consumers to resume from where they left off.
 
-Independent components ensure that failures in one part don’t affect the entire system.
-Events can be queued and processed later, maintaining system continuity.
-Improved Maintainability:
 
-Modular design makes it easier to maintain and troubleshoot individual components.
-Reduces the complexity of managing large systems.
-Problems Solved by Event-Driven Architecture:
-Complex Integration:
+5. **Brokers**
+    - Brokers are the Kafka servers that store data and serve client requests (producers and consumers).
 
-Simplifies the integration of different services or components by using events for communication.
-Handling High Throughput and Scaling:
+    - A Kafka cluster is made up of multiple brokers, and each broker is responsible for storing a portion of the topic partitions.
 
-Distributes load effectively and allows for parallel processing of events, improving scalability.
-Latency in Data Processing:
+    - Brokers coordinate with each other to maintain data replication, manage leadership for partitions, and handle client requests.
 
-Promotes real-time event processing, reducing delays and improving system responsiveness.
-System Resilience:
+    - Kafka brokers are designed to scale horizontally, allowing clusters to handle massive amounts of data.
 
-Isolates failures, ensuring that other components continue to function and process queued events later.
-Difficulty in Adding New Features:
 
-Facilitates the introduction of new features with minimal impact on existing functionality.
-Monitoring and Auditing:
+6. **Leader and Followers**
+   - Each partition has one broker designated as the leader and one or more brokers designated as followers. The leader broker handles all read and write requests for the partition, while followers replicate the data from the leader.
+   - If the leader broker fails, Kafka automatically elects one of the followers as the new leader, ensuring high availability.
 
-Enhances monitoring and auditing capabilities by allowing events to be easily logged and traced.
+7. **Replication**
+   - Kafka replicates each partition across multiple brokers to ensure data durability and fault tolerance. The replication factor is configurable per topic.
+   - Replication ensures that even if a broker fails, the data remains available in the cluster.
+
+8. **ZooKeeper (in legacy setups)**
+   - Traditionally, Kafka used Apache ZooKeeper for distributed coordination, including managing metadata, leader election, and service discovery.
+   - In recent versions, Kafka introduced KRaft mode, which removes the dependency on ZooKeeper by handling these functions internally within Kafka itself.
+
+9. **KRaft Mode (Kafka Raft)**
+   - KRaft mode is an internal consensus protocol introduced in recent Kafka versions to manage metadata and leader election without relying on ZooKeeper.
+   - KRaft mode simplifies Kafka's architecture by consolidating these responsibilities within Kafka, making the system more efficient and easier to manage.
+
+10. **Producers and Consumers API**
+    - Kafka provides robust APIs for producers and consumers, allowing developers to easily integrate Kafka with their applications.
+    - The producer API allows for sending messages to Kafka topics, while the consumer API provides functionalities for subscribing to topics, managing offsets, and handling message consumption.
+
+11. **Kafka Streams**
+    - Kafka Streams is a stream processing library built on top of Kafka, allowing developers to build real-time applications that process data directly within Kafka.
+    - Kafka Streams supports operations like filtering, aggregating, joining, and windowing, enabling complex stream processing workflows.
+   
+12. **Cluster**
+     - A Kafka cluster is a collection of brokers that work together to manage topics and partitions, store data, and serve client requests.
+    - Clusters provide high availability and fault tolerance by replicating data across multiple brokers.
+    - Kafka clusters can be scaled by adding more brokers, which automatically balances the load across the cluster.
+
+
+## Data Flow in Kafka
+
+
+1. **Producers send messages to topics**:
+   - Producers publish messages to a specific topic. The messages are distributed to the appropriate partition within the topic based on the key provided (or using round-robin if no key is specified).
+   - ![image](https://github.com/user-attachments/assets/f2c8dfa1-9d59-4f94-849a-a063de8d71f2)
+
+
+2. **Kafka brokers handle storage and replication**:
+   - The leader broker for each partition writes the messages to disk and replicates them to follower brokers based on the replication factor.
+
+3. **Consumers read messages from topics**:
+   - Consumers subscribe to topics and read messages from the partitions assigned to them. Kafka tracks the offset of each message, allowing consumers to resume reading from where they left off.
+  ![image](https://github.com/user-attachments/assets/543f1c7a-797c-411b-a82a-1261e11970fd)
+
+4. **ZooKeeper (or KRaft mode) manages cluster coordination**:
+   - In legacy setups, ZooKeeper manages leader elections and metadata. In KRaft mode, Kafka itself handles these tasks, streamlining the architecture.
+
+## Summary
+
+Kafka's architecture is designed to be distributed, scalable, and fault-tolerant. With its partitioned and replicated model, Kafka can handle high-throughput and low-latency data streams, making it ideal for a wide range of real-time data processing applications. Whether used for messaging, log aggregation, or stream processing, Kafka's architecture provides the foundation for building robust and scalable data-driven systems.
+
+# Kafka Topic Management Guide
+
+This guide provides essential commands for managing Kafka topics using `kafka-topics.sh`. It includes instructions on how to create, list, describe, and delete topics, as well as how to configure partitions and replication factors. We assume that the directory containing `kafka-topics.sh` is included in your system's `PATH`.
+
+## Commands and Explanations
+          1. Create a Kafka Topic
+             To create a new Kafka topic named `hello-world`, use the following command:
+             kafka-topics.sh --bootstrap-server localhost:9092 --topic hello-world --create
+          2.List All Topics
+             kafka-topics.sh --bootstrap-server localhost:9092 --list
+           3. Describe a Topic
+              kafka-topics.sh --bootstrap-server localhost:9092 --topic hello-world --describe
+           4. Delete a Topic
+              kafka-topics.sh --bootstrap-server localhost:9092 --topic hello-world --delete
+           5. Create a Topic with Partitions
+              kafka-topics.sh --bootstrap-server localhost:9092 --topic order-events --create --partitions 2
+           6. Create a Topic with Replication Factor
+              kafka-topics.sh --bootstrap-server localhost:9092 --topic order-events --create --replication-factor 3
+           7. Create a Topic with Partitions and Replication Factor
+             kafka-topics.sh --bootstrap-server localhost:9092 --topic order-events --create --partitions 2 --replication-factor 3
+
+
+
+
+# Kafka Console Producer Guide
+
+This guide provides basic commands for using the `kafka-console-producer.sh` script to send messages to a Kafka topic. The examples assume that the directory containing `kafka-console-producer.sh` is included in your system's `PATH`.
+
+## Commands and Explanations
+
+### 1. Produce Messages to a Kafka Topic
+
+    To start a Kafka console producer that sends messages to the `hello-world` topic, use the following command:
+    
+    ```bash
+    kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world
+    
+   # Produce Messages with a linger.ms Configuration -
+    kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world --producer-property linger.ms=100
+    
+    To configure the producer to wait for up to a specified time before sending messages (allowing more messages to batch together), you can use the linger.ms setting:
+    The linger.ms setting configures the producer to wait up to 100 milliseconds before sending the messages.
+    This can increase throughput by batching multiple messages together, reducing the number of requests sent to the broker.
+    The --producer-property option allows you to specify additional configuration properties for the producer.
+    
+
+# Kafka Console Consumer Guide
+
+This guide provides basic commands for using the `kafka-console-consumer.sh` script to consume messages from a Kafka topic. The examples assume that the directory containing `kafka-console-consumer.sh` is included in your system's `PATH`.
+
+## Commands and Explanations
+
+    ### 1. Consume Messages from a Kafka Topic
+    
+    To start a Kafka console consumer that reads messages from the `hello-world` topic, use the following command:
+    
+    ```bash
+    kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic hello-world
+    
+    #Consume Messages from the Beginning of the Topic
+    kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic hello-world --from-beginning
+
+
+# Kafka Console Consumer with Metadata
+
+This guide provides a command for using the `kafka-console-consumer.sh` script to consume messages from a Kafka topic while printing additional metadata such as offsets and timestamps. The examples assume that the directory containing `kafka-console-consumer.sh` is included in your system's `PATH`.
+
+## Command and Explanation
+
+### 1. Consume Messages and Print Offset, Timestamp, etc.
+
+    To start a Kafka console consumer that reads messages from the `hello-world` topic and prints the offset, timestamp, and other metadata, use the following command:
+    
+    ```bash
+    kafka-console-consumer.sh \
+        --bootstrap-server localhost:9092 \
+        --topic hello-world \
+        --property print.offset=true \
+        --property print.timestamp=true
+
+        
+    The --property print.offset=true option tells the consumer to print the offset of each message. The offset is a unique identifier for each message within its partition and is used to track the position of the consumer.
+    The --property print.timestamp=true option prints the timestamp associated with each message, which indicates when the message was produced or appended to the log.
+    This command is particularly useful for debugging or monitoring, as it provides insights into the message's metadata along with the actual message content.
+
+
+
+
+
+
+
