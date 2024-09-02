@@ -447,19 +447,45 @@ This guide provides a command for using the `kafka-console-consumer.sh` script t
 
 ### 1. Consume Messages and Print Offset, Timestamp, etc.
 
-    To start a Kafka console consumer that reads messages from the `hello-world` topic and prints the offset, timestamp, and other metadata, use the following command:
-    
-    ```bash
-    kafka-console-consumer.sh \
-        --bootstrap-server localhost:9092 \
-        --topic hello-world \
-        --property print.offset=true \
-        --property print.timestamp=true
-
+        To start a Kafka console consumer that reads messages from the `hello-world` topic and prints the offset, timestamp, and other metadata, use the following command:
         
-    The --property print.offset=true option tells the consumer to print the offset of each message. The offset is a unique identifier for each message within its partition and is used to track the position of the consumer.
-    The --property print.timestamp=true option prints the timestamp associated with each message, which indicates when the message was produced or appended to the log.
-    This command is particularly useful for debugging or monitoring, as it provides insights into the message's metadata along with the actual message content.
+        ```bash
+        kafka-console-consumer.sh \
+            --bootstrap-server localhost:9092 \
+            --topic hello-world \
+            --property print.offset=true \
+            --property print.timestamp=true
+    
+            
+        The --property print.offset=true option tells the consumer to print the offset of each message. The offset is a unique identifier for each message within its partition and is used to track the position of the consumer.
+        The --property print.timestamp=true option prints the timestamp associated with each message, which indicates when the message was produced or appended to the log.
+        This command is particularly useful for debugging or monitoring, as it provides insights into the message's metadata along with the actual message content.
+
+# AKHQ - Kafka Management UI
+
+AKHQ (previously known as KafkaHQ) is a powerful open-source web-based user interface for managing and monitoring Apache Kafka clusters. It provides a comprehensive set of features that make it easier to interact with Kafka topics, consumers, producers, and more.
+
+## Key Features
+
+- **Topic Management**: View, create, update, and delete Kafka topics. You can also inspect topic configurations, partitions, and replication details.
+
+- **Consumer Group Management**: Monitor consumer group activity, including offsets, lag, and partition assignments. You can also reset offsets for consumer groups.
+
+- **Producer Monitoring**: Track the activity of Kafka producers, including the rate of message production and errors.
+
+- **Schema Registry Integration**: Seamlessly integrate with Confluent Schema Registry to view and manage Avro schemas.
+
+- **Real-Time Data Browsing**: Browse messages in Kafka topics in real-time, with the ability to filter and search messages based on various criteria.
+
+- **ACL Management**: Manage Kafka Access Control Lists (ACLs) to secure your Kafka cluster and control access to topics and groups.
+
+## Installation and Setup
+
+AKHQ can be easily deployed using Docker. Here's a simple way to get started:
+  Refer Above Docker-compose.yml 
+
+
+    
 
 
 
