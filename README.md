@@ -73,7 +73,7 @@ Event-Driven Architecture (EDA) is ideal for scenarios requiring high responsive
 6. **Supply Chain Management:** Tracking inventory, managing shipments, and responding to demand changes.
 7. **Online Gaming:** Supporting real-time player interactions, in-game events, and dynamic game state updates.
 
-## Implementation of Event-Driven Architecture (EDA)
+## Implementation of Event-Driven Architecture (EDA) - Technical Requirements
 
 This project demonstrates the implementation of Event-Driven Architecture (EDA) using the following technologies:
 
@@ -483,6 +483,88 @@ AKHQ (previously known as KafkaHQ) is a powerful open-source web-based user inte
 
 AKHQ can be easily deployed using Docker. Here's a simple way to get started:
   Refer Above Docker-compose.yml 
+
+# Spring Boot Overview
+
+Spring Boot is an extension of the Spring framework that simplifies the process of setting up and developing new Spring applications. It aims to minimize the configuration necessary to start a Spring project, allowing developers to get their applications up and running as quickly as possible.
+
+## Key Features of Spring Boot
+
+### 1. Standalone Spring Applications
+Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that can you can "just run". 
+
+### 2. Embedded Server Support
+Spring Boot comes with embedded server options such as Tomcat, Jetty, and Undertow, eliminating the need for external server deployment.
+
+### 3. Opinionated 'Starter' Dependencies
+To simplify dependency management, Spring Boot provides a set of opinionated 'starter' POMs or Gradle builds. These starters cover most of the common use cases, automatically configuring Spring and third-party libraries.
+
+### 4. Automatic Configuration
+Spring Boot can automatically configure your application based on the libraries you have added to the project. It avoids much of the boilerplate configuration.
+
+### 5. Production-ready Features
+Spring Boot includes non-functional features such as:
+- A built-in, configurable embedded server.
+- Health checks.
+- Metrics.
+- Externalized configuration.
+- Application and SQL logging.
+
+### 6. No Code Generation and XML Configuration Required
+Spring Boot does not require code generation or XML configuration. It offers a purely Java-based configuration option through convenient annotations.
+
+### 7. Microservices-ready
+Spring Boot fits well with microservices architecture, thanks to its embeddable server approach and its ability to implement quickly and deploy microservices independently.
+
+## Getting Started with Spring Boot
+
+To begin using Spring Boot, you can leverage tools like Spring Initializr which offers a quick way to generate Spring Boot projects tailored to your needs. You can access Spring Initializr by visiting [start.spring.io](https://start.spring.io/).
+
+# Creating a Spring Boot Project
+
+Step-by-step instructions on how to create a Spring Boot project using Spring Initializr and manual setup with Maven or Gradle.
+
+## Method 1: Using Spring Initializr
+
+Spring Initializr is a web-based tool that offers a fast way to set up Spring Boot projects with your choice of configuration. Follow these steps:
+
+### Step 1: Go to Spring Initializr
+
+Open your web browser and navigate to [Spring Initializr](https://start.spring.io/).
+
+### Step 2: Choose Your Project Metadata
+
+- **Project Type**: Select either `Maven Project` or `Gradle Project`.
+- **Language**: Choose Java, Kotlin, or Groovy.
+- **Spring Boot Version**: Select the version (preferably the latest stable release).
+
+Fill in the:
+- **Group**: e.g., `com.example`
+- **Artifact**: e.g., `demo`
+- **Name**: e.g., `DemoApplication`
+- **Description**: A brief description of your project.
+- **Package Name**: e.g., `com.example.demo`
+
+### Step 3: Add Dependencies
+
+Click on the "Add Dependencies" button and search for the necessary dependencies for your project, such as `Spring Web`, `Spring Data JPA`, `Thymeleaf`, etc.
+
+### Step 4: Generate the Project
+
+Click the "Generate" button to download the project as a zip file.
+
+### Step 5: Extract and Open the Project
+
+Extract the zip file and open it in your favorite IDE (IntelliJ IDEA, Eclipse, Visual Studio Code).
+
+### Step 6: Run the Application
+
+Navigate to the `DemoApplication.java` file and run it as a Java application. Your application will start on `localhost:8080`.
+
+# **Demo **
+
+
+
 
 
     
