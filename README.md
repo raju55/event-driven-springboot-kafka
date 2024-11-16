@@ -1,10 +1,12 @@
 # Event-Driven Architecture with [event-driven-springboot-kafka]
-
+# Agenda 
 ## Overview
 
 This project demonstrates the implementation of Event-Driven Architecture (EDA) using [Technology/Framework, e.g., Java, Spring Boot, Kafka]. The goal is to create a highly scalable, loosely coupled system that reacts to real-time events effectively.
 
 ## Event-Driven Architecture Overview
+![image](https://github.com/user-attachments/assets/4dfd16e0-61fa-4fd9-b7f4-a05d588dc827)
+
 
 - **Event-Driven Architecture (EDA)** is a design approach where events are used to trigger and communicate between decoupled services.
 - **Common in Modern Applications:** EDA is frequently used in modern applications, especially those built with microservices.
