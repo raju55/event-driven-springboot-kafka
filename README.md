@@ -1,10 +1,6 @@
 # Event-Driven Microservices with Spring Boot and Apache Kafka
-# Agenda 
-Agenda
-# Event-Driven Microservices with Spring Boot and Apache Kafka
-
 This repository provides a detailed guide for understanding and implementing **Event-Driven Microservices** using **Spring Boot** and **Apache Kafka**. Below is the structured agenda for the topics covered.
-
+# Agenda 
 ## 1. Introduction to Event-Driven Architecture (EDA)
 - Understanding Event-Driven Design principles.
 - Benefits of EDA in Microservices.
