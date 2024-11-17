@@ -39,17 +39,6 @@ This repository provides a detailed guide for understanding and implementing **E
 ## 9. Q&A and Wrap-Up
 - Open discussion and advanced use case exploration.
 
-## Visual Overview
-![Event-Driven Microservices Architecture](https://github.com/user-attachments/assets/11b538a2-41d3-45cc-a5db-c29c49e10e8b)
-
----
-
-## How to Contribute
-We welcome contributions! Please feel free to submit issues or pull requests to improve this repository.
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
 
 ## Overview
 
