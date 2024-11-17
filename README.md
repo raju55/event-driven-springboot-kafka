@@ -181,7 +181,7 @@ Install Docker by following the instructions for your operating system:
 This Docker Compose file sets up a Kafka broker using KRaft mode and an AKHQ instance for managing the Kafka cluster. The Kafka service runs in the host network mode to allow seamless communication with `localhost:9092`, while AKHQ connects to this broker and exposes a web UI on port `8080`.
 
 ## Docker Compose Configuration
-```bash
+ ```yaml
 version: '3.8'
 services:
   zookeeper:
@@ -232,7 +232,6 @@ services:
 networks:
   kafka-network:
     driver: bridge # Shared network for inter-container communication
-
 
 ## Steps to Set Up and Run
 
