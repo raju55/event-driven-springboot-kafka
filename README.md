@@ -181,56 +181,56 @@ This Docker Compose file sets up a Kafka broker using KRaft mode and an AKHQ ins
 
 ## Docker Compose Configuration
  ```yaml
-version: '3.8'
-services:
-  zookeeper:
-    image: bitnami/zookeeper:latest # Lightweight Zookeeper image
-    container_name: zookeeper
-    ports:
-      - "2181:2181" # Zookeeper port
-    environment:
-      ALLOW_ANONYMOUS_LOGIN: "yes" # Allow Zookeeper without authentication
+    version: '3.8'
+    services:
+      zookeeper:
+        image: bitnami/zookeeper:latest # Lightweight Zookeeper image
+        container_name: zookeeper
+        ports:
+          - "2181:2181" # Zookeeper port
+        environment:
+          ALLOW_ANONYMOUS_LOGIN: "yes" # Allow Zookeeper without authentication
+        networks:
+          - kafka-network
+    
+      kafka:
+        image: bitnami/kafka:latest # Kafka image with integrated Zookeeper support
+        container_name: kafka
+        ports:
+          - "9092:9092" # Kafka broker port for external communication
+        environment:
+          KAFKA_BROKER_ID: 1 # Unique broker ID for Kafka
+          KAFKA_LISTENERS: PLAINTEXT://:9092 # Kafka listener for external communication
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092 # Advertised listener for clients
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # Connection to Zookeeper
+          ALLOW_PLAINTEXT_LISTENER: "yes" # Allow plaintext communication
+        volumes:
+          - ./kafka-data:/bitnami/kafka # Persistent data for Kafka
+        depends_on:
+          - zookeeper
+        networks:
+          - kafka-network
+    
+      akhq:
+        image: tchiotludo/akhq:latest # AKHQ image for Kafka management
+        container_name: akhq
+        ports:
+          - "8080:8080" # Web UI for AKHQ
+        environment:
+          AKHQ_CONFIGURATION: |
+            akhq:
+              connections:
+                kafka-cluster:
+                  properties:
+                    bootstrap.servers: "kafka:9092" # Connect to Kafka broker
+        depends_on:
+          - kafka
+        networks:
+          - kafka-network
+    
     networks:
-      - kafka-network
-
-  kafka:
-    image: bitnami/kafka:latest # Kafka image with integrated Zookeeper support
-    container_name: kafka
-    ports:
-      - "9092:9092" # Kafka broker port for external communication
-    environment:
-      KAFKA_BROKER_ID: 1 # Unique broker ID for Kafka
-      KAFKA_LISTENERS: PLAINTEXT://:9092 # Kafka listener for external communication
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092 # Advertised listener for clients
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # Connection to Zookeeper
-      ALLOW_PLAINTEXT_LISTENER: "yes" # Allow plaintext communication
-    volumes:
-      - ./kafka-data:/bitnami/kafka # Persistent data for Kafka
-    depends_on:
-      - zookeeper
-    networks:
-      - kafka-network
-
-  akhq:
-    image: tchiotludo/akhq:latest # AKHQ image for Kafka management
-    container_name: akhq
-    ports:
-      - "8080:8080" # Web UI for AKHQ
-    environment:
-      AKHQ_CONFIGURATION: |
-        akhq:
-          connections:
-            kafka-cluster:
-              properties:
-                bootstrap.servers: "kafka:9092" # Connect to Kafka broker
-    depends_on:
-      - kafka
-    networks:
-      - kafka-network
-
-networks:
-  kafka-network:
-    driver: bridge # Shared network for inter-container communication
+      kafka-network:
+        driver: bridge # Shared network for inter-container communication
 
 ## Steps to Set Up and Run
 
