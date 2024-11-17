@@ -1,5 +1,60 @@
-# Event-Driven Architecture with [event-driven-springboot-kafka]
+# Event-Driven Microservices with Spring Boot and Apache Kafka
 # Agenda 
+Agenda
+# Event-Driven Microservices with Spring Boot and Apache Kafka
+
+This repository provides a detailed guide for understanding and implementing **Event-Driven Microservices** using **Spring Boot** and **Apache Kafka**. Below is the structured agenda for the topics covered.
+
+## 1. Introduction to Event-Driven Architecture (EDA)
+- Understanding Event-Driven Design principles.
+- Benefits of EDA in Microservices.
+- Use cases and real-world applications.
+
+## 2. Overview of Apache Kafka
+- What is Apache Kafka?
+- Core Kafka components: Topics, Producers, Consumers, Brokers, and Partitions.
+- Key Kafka concepts: Offset, Commit, and Consumer Groups.
+- Kafka advantages for EDA.
+
+## 3. Setting Up Kafka
+- Installing and configuring Apache Kafka.
+- Running Kafka in Docker.
+- Creating Topics and understanding configuration options.
+
+## 4. Building Microservices with Spring Boot
+- Learn how to build and configure microservices using Spring Boot.
+
+## 5. Designing an Event-Driven System
+- Explore domain-driven design for microservices.
+- Understand Event Sourcing and CQRS patterns.
+
+## 6. Implementing Event-Driven Microservices
+- Integrate Apache Kafka with Spring Boot applications.
+- Publish and consume events using Spring Kafka.
+
+## 7. Ensuring Scalability and Resilience
+- Partitioning and scaling Kafka for high availability.
+- Implement retry and dead-letter queue patterns.
+
+## 8. Case Study / Hands-On Lab
+- Implement a real-world example of an event-driven system.
+- Discuss best practices and challenges.
+
+## 9. Q&A and Wrap-Up
+- Open discussion and advanced use case exploration.
+
+## Visual Overview
+![Event-Driven Microservices Architecture](https://github.com/user-attachments/assets/11b538a2-41d3-45cc-a5db-c29c49e10e8b)
+
+---
+
+## How to Contribute
+We welcome contributions! Please feel free to submit issues or pull requests to improve this repository.
+
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
 ## Overview
 
 This project demonstrates the implementation of Event-Driven Architecture (EDA) using [Technology/Framework, e.g., Java, Spring Boot, Kafka]. The goal is to create a highly scalable, loosely coupled system that reacts to real-time events effectively.
