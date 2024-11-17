@@ -51,8 +51,8 @@ This project demonstrates the implementation of Event-Driven Architecture (EDA) 
 - **Event-Driven Architecture (EDA)** is a design approach where events are used to trigger and communicate between decoupled services.
 - **Common in Modern Applications:** EDA is frequently used in modern applications, especially those built with microservices.
 - **Definition of an Event:**
-  - An event represents a change in state or an update within the system.
-  - Examples include actions like placing an item in a shopping cart on an e-commerce website.
+  - A signal indicating that something has occurred (e.g., a user clicks a button, a transaction is completed, or data is updated).
+    -Examples: "Order placed," "User logged in," "Payment failed.".
 - **Event Details:**
   - Events can carry state information (e.g., item purchased, price, delivery address).
   - Alternatively, events can serve as identifiers (e.g., a notification that an order was shipped).
@@ -60,20 +60,19 @@ This project demonstrates the implementation of Event-Driven Architecture (EDA) 
 ### Key Components of Event-Driven Architecture
 
 1. **Event Producers:**
-   - These are services that publish events when a significant change or action occurs.
+   - Components that generate and publish events. Examples: Microservices, IoT devices, or user interfaces.
    
-2. **Event Routers:**
-   - The router filters and directs events from producers to the appropriate consumers.
+2. **Event Broker:**
+   - A mediator that facilitates the communication between producers and consumers. Examples: Apache Kafka, RabbitMQ, Amazon SNS/SQS.
    
 3. **Event Consumers:**
    - Consumers are services that receive and process events, taking action based on the event data.
 
-### Benefits of Decoupling in EDA
+### Key Benefits of EDA
 
   - **Decoupled Services:** Producer and consumer services are independent, allowing them to be:
-  - **Scaled:** Services can be scaled independently based on demand.
-  - **Updated:** Updates can be applied to individual services without affecting others.
-  - **Deployed:** Services can be deployed separately, improving deployment flexibility and reducing downtime.
+  - **Asynchronous:** Events are processed independently, enabling non-blocking communication.
+  - **Real-Time Processing:** Events can be processed as soon as they are emitted.
 
     
  ## Advantages of Event-Driven Architecture
