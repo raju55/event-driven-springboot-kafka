@@ -182,8 +182,7 @@ This Docker Compose file sets up a Kafka broker using KRaft mode and an AKHQ ins
 
 ## Docker Compose Configuration
 
-      ```
-      version: '3.8'
+     version: '3.8'
 
 services:
   zookeeper:
@@ -234,6 +233,7 @@ services:
 networks:
   kafka-network:
     driver: bridge # Shared network for inter-container communication
+
 
 ## Steps to Set Up and Run
 
