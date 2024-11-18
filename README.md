@@ -451,8 +451,38 @@ This guide provides essential commands for managing Kafka topics using `kafka-to
               kafka-topics.sh --bootstrap-server localhost:9092 --topic order-events --create --replication-factor 3
            7. Create a Topic with Partitions and Replication Factor
              kafka-topics.sh --bootstrap-server localhost:9092 --topic order-events --create --partitions 2 --replication-factor 3
+          8. Produce a Simple Message
+             kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world
+             Example 
+             Hello, Kafka!
+             Welcome to Kafka!!
 
-             # Kafka Partitions and Replication
+        9. Produce a Key-Value Pair
+           kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world --property "parse.key=true" --property "key.separator=:"
+
+           key1:value1
+           key2:value2
+
+      10. Produce Messages with Partition
+          kafka-console-producer.sh --bootstrap-server localhost:9092 --topic order-events --property       "partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner"
+
+     11. Produce JSON Messages
+
+        kafka-console-producer.sh --bootstrap-server localhost:9092 --topic json-topic
+        {"order_id": 123, "status": "shipped"}
+        {"order_id": 124, "status": "pending"}
+
+  11. Produce Messages with Compression
+      kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world --producer-property compression.type=gzip
+
+      Produce Messages with a Specific Partition
+
+ 12 . kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world --property "partition=1"
+
+    Produce Messages with Acknowledgments
+    kafka-console-producer.sh --bootstrap-server localhost:9092 --topic hello-world --producer-property acks=all
+
+           
 
 Kafka uses **Partitions** and **Replication** to achieve scalability, high throughput, and fault tolerance. Below is a comparison of their key aspects:
 
