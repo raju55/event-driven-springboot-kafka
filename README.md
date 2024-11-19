@@ -599,21 +599,12 @@ AKHQ (previously known as KafkaHQ) is a powerful open-source web-based user inte
 # Why is ZooKeeper Used in Kafka?
 Kafka uses ZooKeeper for:
 
-Cluster Management:
-
+-**Cluster Management**:
 Tracks Kafka brokers and elects a controller broker to manage partitions and replicas.
-Topic Metadata Management:
-
-Maintains metadata for topics, partitions, and their replicas.
-Leader Election:
-
-Coordinates the election of partition leaders among brokers.
-Broker Registration:
-
-Keeps track of which brokers are active.
-Distributed Configuration:
-
-Shares configuration among brokers in the Kafka cluster.
+-**Topic Metadata Management**:Maintains metadata for topics, partitions, and their replicas.
+-**Leader Election**:Coordinates the election of partition leaders among brokers.
+-**Broker Registration**:Keeps track of which brokers are active.
+-**Distributed Configuration**:Shares configuration among brokers in the Kafka cluster.
 
 ## Installation and Setup
 
