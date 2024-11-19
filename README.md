@@ -509,6 +509,7 @@ Kafka uses **Partitions** and **Replication** to achieve scalability, high throu
   ```bash
   kafka-topics.sh --bootstrap-server localhost:9092 --topic my-topic --create --partitions 3
 
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-topic --from-beginning
 
 
 
@@ -591,6 +592,28 @@ AKHQ (previously known as KafkaHQ) is a powerful open-source web-based user inte
 - **Real-Time Data Browsing**: Browse messages in Kafka topics in real-time, with the ability to filter and search messages based on various criteria.
 
 - **ACL Management**: Manage Kafka Access Control Lists (ACLs) to secure your Kafka cluster and control access to topics and groups.
+# What is ZooKeeper?
+
+- Apache ZooKeeper is a distributed coordination service used for managing and coordinating distributed systems, applications, and services. It provides tools and abstractions to manage configuration, synchronization, and naming for large-scale distributed systems.
+
+# Why is ZooKeeper Used in Kafka?
+Kafka uses ZooKeeper for:
+
+Cluster Management:
+
+Tracks Kafka brokers and elects a controller broker to manage partitions and replicas.
+Topic Metadata Management:
+
+Maintains metadata for topics, partitions, and their replicas.
+Leader Election:
+
+Coordinates the election of partition leaders among brokers.
+Broker Registration:
+
+Keeps track of which brokers are active.
+Distributed Configuration:
+
+Shares configuration among brokers in the Kafka cluster.
 
 ## Installation and Setup
 
