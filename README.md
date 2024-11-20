@@ -611,44 +611,46 @@ Tracks Kafka brokers and elects a controller broker to manage partitions and rep
 AKHQ can be easily deployed using Docker. Here's a simple way to get started:
   Refer Above Docker-compose.yml 
   
-**## Use Manual Offset Management**
+## Use Manual Offset Management
 Disable automatic offset commits (enable.auto.commit=false) and manually commit offsets after processing a message successfully.
 
 If the application crashes before committing, Kafka will reassign the uncommitted offsets to another consumer in the group or restart the same consumer at the last committed offset.
-**### Configuration: ```properties**
+### Configuration:
+```properties
 enable.auto.commit=false
 
-**## Use Idempotent Processing**
+## Use Idempotent Processing
 	• Ensure that your processing logic is idempotent (i.e., reprocessing the same message doesn't lead to inconsistencies).
 	• Store message processing results with unique identifiers (e.g., message keys or offsets) in an external database or cache to track what has been processed.
 
-**##Leverage Consumer Groups for Recovery**
+##Leverage Consumer Groups for Recovery
 	• If the consumer application goes down, Kafka assigns the partitions to another consumer in the same group.
 	• Ensure the offsets are committed before crashes to avoid reprocessing or skipping messages.
 
 
-**##Store Offsets Externally**
+##Store Offsets Externally
 	• Instead of relying on Kafka’s offset storage, maintain offsets in an external data store (e.g., a database).
 	• This approach provides greater control and flexibility for recovery.
 Steps:
 	1. Before processing a message, check the last committed offset in the external store.
 	2. After successful processing, update the offset in the store.
-**##Enable Dead Letter Queues (DLQ)**
+##Enable Dead Letter Queues (DLQ)
 	• If the application fails to process certain messages, configure Kafka to send them to a dead letter queue for later analysis and reprocessing.
 Implementation:
 	• Use a custom error handler to capture and redirect problematic messages.
-**##Use Retry Mechanisms**
+##Use Retry Mechanisms
 	• For transient failures (e.g., network issues or temporary database outages), implement retries.
 	• Use an exponential backoff strategy to avoid overwhelming the system.
 Example: Retry message processing a fixed number of times before moving it to a DLQ.
-**##Leverage Transactions for Atomicity**
+##Leverage Transactions for Atomicity
 	• Use Kafka exactly-once semantics (EOS) by enabling transactions to ensure atomicity between producing and consuming messages.
 	• This is useful for systems where the consumer writes results to another Kafka topic.
 ##Increase Consumer Timeout
 	• If the consumer is expected to take longer to process a message, increase the timeout settings to avoid Kafka rebalancing.
-**### Configuration: ```properties**
+### Configuration:
+```properties
 max.poll.interval.ms=600000   # Maximum time for message processing
-session.timeout.ms=30000      # Heartbeat timeout for consumer group![image](https://github.com/user-attachments/assets/d91c20f8-7216-4593-8920-68b378124b21)
+session.timeout.ms=30000      # Heartbeat timeout for consumer group
 
 # Spring Boot Overview
 
