@@ -652,12 +652,12 @@ session.timeout.ms=30000      # Heartbeat timeout for consumer group
 
 # Spring Boot Overview
 
-Spring Boot is an extension of the Spring framework that simplifies the process of setting up and developing new Spring applications. It aims to minimize the configuration necessary to start a Spring project, allowing developers to get their applications up and running as quickly as possible.
+Spring Boot is an open-source Java-based framework used to create stand-alone, production-grade Spring-based applications with minimal configuration. It is built on top of the Spring Framework and simplifies the development process by providing features like auto-configuration, embedded servers, and a curated set of libraries..
 
 ## Key Features of Spring Boot
 
 ### 1. Standalone Spring Applications
-Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that can you can "just run". 
+Spring Boot allows the creation of standalone applications that can be run directly from the command line with java -jar. 
 
 ### 2. Embedded Server Support
 Spring Boot comes with embedded server options such as Tomcat, Jetty, and Undertow, eliminating the need for external server deployment.
